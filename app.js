@@ -7,18 +7,17 @@ init=function(){
 	s=0;
 	score=0;//己經click幾下
 	mines=new Array();//紀錄mine位置,有mine為1,沒有為0
-	document.getElementById('restart').addEventListener('click',(function(event) {
+	document.getElementById('restart').addEventListener('click',function(event) {
 		window.location.reload();
-	}).bind(this));
+	});
 }
 
 level=function(nlevel){
 	var r = confirm("Are you sure you want to change the level?");
 	if (r == true) {
 		nMine=nlevel.value;
-	}else{
-		return;
 	}
+	return nMine;
 }
 
 run=function(){
@@ -81,44 +80,49 @@ pushButton=function(btn){
 	btn.innerHTML=mineCount;
 	btn.setAttribute('disabled','disabled');
 	
-	if(mines[curI][curJ]==1){//踩到地雷
+	if(lose(mines[curI][curJ])==0){
 		btn.innerHTML='#';
 		btn.setAttribute('disabled','disabled');
 		clearInterval(gameTimer);
-		alert('GAMEOVER!');
 	}
 	
-	while(mineCount==0){
-		if(curI>0){//左上、上、右上的地雷數和
+	while(mineCount==0){//自動展開
+		if(curI>0){
 				window.document.getElementById(curI-1+"-"+curJ).click();
 			if(curJ>0)
 				window.document.getElementById(curI-1+"-"+curJ-1).click();
 			if(curJ<col-1)
 				window.document.getElementById(curI-1+"-"+curJ+1).click();
 		}
-		if(curI<row-1){//左下 下 右下
+		if(curI<row-1){
 			window.document.getElementById(curI+1+"-"+curJ).click();
 			if(curJ>0)
 			window.document.getElementById(curI+1+"-"+curJ-1).click();[curI+1][curJ-1];
 			if(curJ<col-1)
 			window.document.getElementById(curI+1+"-"+curJ+1).click();
 		}
-		if(curJ>0)//左
+		if(curJ>0)
 			window.document.getElementById(curI+"-"+curJ-1).click();
-		if(curJ<col-1)//右
+		if(curJ<col-1)
 			window.document.getElementById(curI+"-"+curJ+1).click();
 	}
 
-	if(score==col*row-nMine){//WIN
-		alert('YOU WIN!');
+	if(win(score)==1)
 		clearTimeout(gameTimer);
-	}
 	
 	document.getElementById('score').innerHTML= "Score: "+score*2;
 }
 
-openField=function(i,j){
-	
+lose=function(m){
+	if(m==1)//踩到地雷
+		alert('GAMEOVER!');
+	return 0;
+}
+
+win=function(score){
+	if(score==col*row-nMine)//WIN
+		alert('YOU WIN!');
+	return 1;
 }
 
 timer=function(){
@@ -127,7 +131,7 @@ timer=function(){
 		s++;
 		c=0;
 	}
-    if(s==60){
+	if(testMinuteTime(s)==1){
 		m++;
 		s=0;
 	}
@@ -136,4 +140,9 @@ timer=function(){
 	if(s=="0"||s=="1"||s=="2"||s=="3"||s=="4"||s=="5"||s=="6"||s=="7"||s=="8"||s=="9")
 		s = "0" + s;
 	document.getElementById('timer').innerHTML= "Time: "+m+":"+s;
+}
+
+testMinuteTime(t){
+	if(t==60)
+		return 1;
 }
