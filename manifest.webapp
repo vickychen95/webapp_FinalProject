@@ -1,0 +1,12 @@
+{
+  "name": "mine_sweeper",
+  "description": "Mine Sweeper",
+  "launch_path": "/index.html",
+    "icons": {
+    "mine": "mine.png"
+  },
+  "developer": {
+    "name": "vickychen",
+    "url": "http://example.com"
+  }
+}

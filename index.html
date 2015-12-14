@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+			<style>
+			button{
+				width:30px;
+				height:30px;
+			}
+			button[disabled=disabled]{
+				background-color:white;
+			}
+			input.restart{
+				width:90px;
+				height:30px;
+			}
+		</style>
+		<script src="app.js" defer></script>
+	</head>
+	<body onload="run()">
+		<div id="minefield"></div>
+		<div id="timer">Time: 00:00</div>
+		<div id="score">Score: 0</div>
+		Level: 
+		<select id="level" onChange="level(this)">
+			<option selected value=10>Easy</option>
+			<option value=15>Medium</option>
+			<option value=25>Hard</option>
+		</select>
+		<input type="button" id="restart" value="RESTART">
+	</body>
+</html>
